@@ -1,0 +1,18 @@
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest
+
+steps:
+- task: AzureCLI@2
+  displayName: DocFX Build
+  inputs:
+    azureSubscription: AzureSubscription
+    scriptType: ps
+    scriptPath: Build-DocFX.ps1
+    arguments: > # Use this to avoid newline characters in multiline string
+      -DocFXJson src\docfx.json
+      -RegistryName oliverlo
+      -ImageName docfx-sample
+      -Tag latest
