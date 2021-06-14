@@ -1,18 +1,50 @@
 trigger:
 - main
 
-pool:
-  vmImage: windows-latest
+variables:
+  azureSubscriptionServiceConnection: 'AzureSubscription'
+  azureContainerRegistryName: 'oliverlo'
+  containerImageName: 'docfx-sample'
+  containerTag: '$(Build.BuildNumber)'
+  appNameDev: 'tmp2392'
+  appNameProd: ''
 
-steps:
-- task: AzureCLI@2
-  displayName: DocFX Build
-  inputs:
-    azureSubscription: AzureSubscription
-    scriptType: ps
-    scriptPath: Build-DocFX.ps1
-    arguments: > # Use this to avoid newline characters in multiline string
-      -DocFXJson src\docfx.json
-      -RegistryName oliverlo
-      -ImageName docfx-sample
-      -Tag latest
+stages:
+  - stage: build
+    displayName: Build DocFx Container
+    jobs:
+      - job: build
+        displayName: Build
+        pool:
+          vmImage: windows-latest
+        steps:
+        - task: AzureCLI@2
+          displayName: Build DocFx Container
+          inputs:
+            azureSubscription: $(azureSubscriptionServiceConnection)
+            scriptType: ps
+            scriptPath: Build-DocFX.ps1
+            arguments: > # Use this to avoid newline characters in multiline string
+              -DocFXJson src\docfx.json
+              -RegistryName $(azureContainerRegistryName)
+              -ImageName $(containerImageName)
+              -Tag $(containerTag)
+
+  - stage: deploy
+    displayName: Deploy 
+    dependsOn: build
+    jobs:
+      - deployment: deploy-dev
+        displayName: Deploy dev
+        pool: ubuntu-latest
+        environment: 'dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebAppContainer@1 
+                  inputs:
+                    azureSubscription: $(azureSubscriptionServiceConnection)
+                    appName: $(appNameDev)
+                    containers: $(azureContainerRegistryName).azurecr.io/$(containerImageName):$(containerTag)
+    
