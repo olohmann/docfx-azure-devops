@@ -34,7 +34,7 @@ stages:
     displayName: Deploy 
     dependsOn: build
     jobs:
-      - deployment: deploy-dev
+      - deployment: deploy_dev
         displayName: Deploy dev
         pool: ubuntu-latest
         environment: 'dev'
