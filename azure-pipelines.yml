@@ -36,7 +36,8 @@ stages:
     jobs:
       - deployment: deploy_dev
         displayName: Deploy dev
-        pool: ubuntu-latest
+        pool: 
+          vmImage: 'ubuntu-latest'
         environment: 'dev'
         strategy:
           runOnce:
