@@ -7,7 +7,7 @@ variables:
   containerImageName: 'docfx-demo'
   containerTag: '$(Build.BuildNumber)'
   appNameDev: 'docfx-demo'
-  appNameProd: ''
+  appResourceGroupNameDev: 'docfx_sample_rg'
 
 stages:
   - stage: build
@@ -43,9 +43,15 @@ stages:
           runOnce:
             deploy:
               steps:
-                - task: AzureWebAppContainer@1 
+                - task: AzureCLI@2
+                  displayName: Build DocFx Container
                   inputs:
                     azureSubscription: $(azureSubscriptionServiceConnection)
-                    appName: $(appNameDev)
-                    containers: $(azureContainerRegistryName).azurecr.io/$(containerImageName):$(containerTag)
-    
+                    scriptType: ps
+                    scriptPath: Build-DocFX.ps1
+                    arguments: > # Use this to avoid newline characters in multiline string
+                      -RegistryName $(azureContainerRegistryName)
+                      -ImageName $(containerImageName)
+                      -Tag $(containerTag)
+                      -AppServiceName $(appNameDev)
+                      -AppServiceResourceGroupName $(appResourceGroupNameDev)
