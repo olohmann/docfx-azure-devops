@@ -4,9 +4,9 @@ trigger:
 variables:
   azureSubscriptionServiceConnection: 'AzureSubscription'
   azureContainerRegistryName: 'oliverlo'
-  containerImageName: 'docfx-sample'
+  containerImageName: 'docfx-demo'
   containerTag: '$(Build.BuildNumber)'
-  appNameDev: 'tmp2392'
+  appNameDev: 'docfx-demo'
   appNameProd: ''
 
 stages:
