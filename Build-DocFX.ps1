@@ -32,12 +32,12 @@ Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
 
 function RunAcrBuild {
-    az acr build -r $RegistryName -f ./Dockerfile -t "$($RegistryName).azurecr.io/$($ImageName):$($Tag)" ./_out/_site
+    az acr build -r $RegistryName -f ./Dockerfile -t "$($RegistryName).azurecr.io/$($ImageName):$($Tag)" -t "$($RegistryName).azurecr.io/$($ImageName):latest" ./_out/_site
     if ($LastExitCode -gt 0) { throw "acr docker build error" }
 }
 
 function RunLocalDockerBuild {
-    docker build -f ./Dockerfile -t "$($RegistryName).azurecr.io/$($ImageName):$($Tag)" ./_out/_site
+    docker build -f ./Dockerfile -t "$($RegistryName).azurecr.io/$($ImageName):$($Tag)" -t "$($RegistryName).azurecr.io/$($ImageName):latest" ./_out/_site
     if ($LastExitCode -gt 0) { throw "docker build error" }
 }
 
