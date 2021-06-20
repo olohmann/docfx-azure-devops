@@ -45,7 +45,7 @@ stages:
               steps:
                 - checkout: self
                 - task: AzureCLI@2
-                  displayName: Build DocFx Container
+                  displayName: Deploy DocFx Container
                   inputs:
                     azureSubscription: $(azureSubscriptionServiceConnection)
                     scriptType: ps
