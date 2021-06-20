@@ -48,7 +48,7 @@ stages:
                   displayName: Deploy DocFx Container
                   inputs:
                     azureSubscription: $(azureSubscriptionServiceConnection)
-                    scriptType: ps
+                    scriptType: pscore
                     scriptPath: Deploy-DocFX.ps1
                     arguments: > # Use this to avoid newline characters in multiline string
                       -RegistryName $(azureContainerRegistryName)
