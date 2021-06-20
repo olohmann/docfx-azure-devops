@@ -43,12 +43,13 @@ stages:
           runOnce:
             deploy:
               steps:
+                - checkout: self
                 - task: AzureCLI@2
                   displayName: Build DocFx Container
                   inputs:
                     azureSubscription: $(azureSubscriptionServiceConnection)
                     scriptType: ps
-                    scriptPath: Build-DocFX.ps1
+                    scriptPath: Deploy-DocFX.ps1
                     arguments: > # Use this to avoid newline characters in multiline string
                       -RegistryName $(azureContainerRegistryName)
                       -ImageName $(containerImageName)
