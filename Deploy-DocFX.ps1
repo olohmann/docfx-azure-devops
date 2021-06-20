@@ -45,6 +45,6 @@ az webapp config appsettings set -g $AppServiceResourceGroupName -n $AppServiceN
 $RegistryPassword = (az acr credential show --name oliverlo --output json | ConvertFrom-Json).passwords[0].value
 
 Write-Host "Applying..."
-az webapp config container set --name $AppServiceName --resource-group $AppServiceResourceGroupName --docker-custom-image-name "$($ImageName):$($Tag)" --docker-registry-server-url "https://$($RegistryName).azurecr.io" --docker-registry-server-user "$($RegistryName)" --docker-registry-server-password "$($RegistryPassword)" --output none
+az webapp config container set --name $AppServiceName --resource-group $AppServiceResourceGroupName --docker-custom-image-name "$($RegistryName).azurecr.io/$($ImageName):$($Tag)" --docker-registry-server-url "https://$($RegistryName).azurecr.io" --docker-registry-server-user "$($RegistryName)" --docker-registry-server-password "$($RegistryPassword)" --output none
 
 Write-Host "Deployment finished successfully."
