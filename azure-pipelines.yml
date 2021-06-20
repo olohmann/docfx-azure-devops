@@ -8,6 +8,8 @@ variables:
   containerTag: '$(Build.BuildNumber)'
   appNameDev: 'docfx-demo'
   appResourceGroupNameDev: 'docfx_sample_rg'
+  appNameProd: 'docfx-demo-prod'
+  appResourceGroupNameProd: 'docfx_sample_rg'
 
 stages:
   - stage: build
@@ -30,8 +32,8 @@ stages:
               -ImageName $(containerImageName)
               -Tag $(containerTag)
 
-  - stage: deploy
-    displayName: Deploy 
+  - stage: deploy_dev
+    displayName: Deploy Dev
     dependsOn: build
     jobs:
       - deployment: deploy_dev
@@ -56,3 +58,29 @@ stages:
                       -Tag $(containerTag)
                       -AppServiceName $(appNameDev)
                       -AppServiceResourceGroupName $(appResourceGroupNameDev)
+  - stage: deploy_prod
+    displayName: Deploy Prod
+    dependsOn: deploy_dev
+    jobs:
+      - deployment: deploy_prod
+        displayName: Deploy Prod
+        pool: 
+          vmImage: 'ubuntu-latest'
+        environment: 'prod'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  displayName: Deploy DocFx Container
+                  inputs:
+                    azureSubscription: $(azureSubscriptionServiceConnection)
+                    scriptType: pscore
+                    scriptPath: Deploy-DocFX.ps1
+                    arguments: > # Use this to avoid newline characters in multiline string
+                      -RegistryName $(azureContainerRegistryName)
+                      -ImageName $(containerImageName)
+                      -Tag $(containerTag)
+                      -AppServiceName $(appNameProd)
+                      -AppServiceResourceGroupName $(appResourceGroupNameProd)
