@@ -44,7 +44,7 @@
       "_appTitle": "Contoso Sample Documentation",
       "_appFooter": "<span>Copyright © Contoso <br>Build: <strong>#{Build.BuildNumber}#</strong> Build-Branch: <strong>#{Build.SourceBranchName}#</strong></span>",
       "_gitContribute": {
-        "branch": "master"
+        "branch": "main"
       }
     },
     "globalMetadataFiles": [],
