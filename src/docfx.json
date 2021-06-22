@@ -49,7 +49,7 @@
     "fileMetadataFiles": [],
     "template": [
       "default",
-      "custom_template"
+      "_custom_template"
     ],
     "markdownEngineName": "markdig",
     "noLangKeyword": false,
