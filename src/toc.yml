@@ -1,4 +1,6 @@
-- name: Articles
+- name: "Articles"
   href: articles/
-- name: Labs
+  topicHref: articles/intro.md
+- name: "Labs"
   href: labs/
+  topicHref: labs/intro.md
