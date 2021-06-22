@@ -1,26 +1,6 @@
 {
-  "metadata": [
-    {
-      "src": [
-        {
-          "files": [
-            "src/**.csproj"
-          ]
-        }
-      ],
-      "dest": "api",
-      "disableGitFeatures": false,
-      "disableDefaultFilter": false
-    }
-  ],
   "build": {
     "content": [
-      {
-        "files": [
-          "api/**.yml",
-          "api/index.md"
-        ]
-      },
       {
         "files": [
           "articles/**.md",
@@ -33,7 +13,13 @@
     "resource": [
       {
         "files": [
-          "images/**"
+          "**/media/**",
+          "**/images/**",
+          "**/img/**",
+          "**/visio/**",
+          "**/artifacts/**",
+          "codesnippet/**",
+          "langwordmapping/**"
         ]
       }
     ],
@@ -49,12 +35,22 @@
       }
     ],
     "dest": "_site",
+    "postProcessors": [
+      "ExtractSearchIndex"
+    ],
+    "globalMetadata": {
+      "_appTitle": "Contoso Sample Documentation",
+      "_appFooter": "<span>Copyright © Contoso <br>Build: <strong>#{Build.BuildNumber}#</strong> Build-Branch: <strong>#{Build.SourceBranchName}#</strong></span>",
+      "_gitContribute": {
+        "branch": "master"
+      }
+    },
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
-      "default"
+      "default",
+      "custom_template"
     ],
-    "postProcessors": [],
     "markdownEngineName": "markdig",
     "noLangKeyword": false,
     "keepFileLink": false,

@@ -20,6 +20,16 @@ stages:
         pool:
           vmImage: windows-latest
         steps:
+        # Replace Tokens in docfx.json
+        - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+          displayName: 'Replace tokens'
+          inputs:
+            targetFiles: ./src/docfx.json
+        # Replace Tokens in template
+        - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+          displayName: 'Replace tokens to inject AppInsightsIntrumantationKey'
+          inputs:
+            targetFiles: ./src/custom_template/partials/head.tmpl.partial
         - task: AzureCLI@2
           displayName: Build DocFx Container
           inputs:
